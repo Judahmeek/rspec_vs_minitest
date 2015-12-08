@@ -1,5 +1,9 @@
 class User < ActiveRecord::Base
   attr_accessor :remember_token, :activation_token, :reset_token
+  has_many :microposts, dependent: :destroy
+  has_many :active_relationships, class_name:   "Relationship",
+                                  foreign_key:  "follower_id",
+                                  dependent:    :destroy
 	before_save   :downcase_email
   before_create :create_activation_digest
 	validates :name, 	presence: true, length: { maximum: 50 }
@@ -10,7 +14,6 @@ class User < ActiveRecord::Base
 										
 	has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
-  has_many :microposts, dependent: :destroy
 
   # Returns the hash digest of the given string.
   def User.digest(string)
