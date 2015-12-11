@@ -1,15 +1,22 @@
 require 'rails_helper'
  
 describe StaticPagesController do
-  describe "GET home" do
-    it "gets the homepage view" do
-      get :home
-      expect(response).to have_http_status(:success)
-    end
- 
-    it "gets the correct view template" do
-      get :home
-      expect(response).to render_template("static_pages/home")
+
+  pages = [:home, :about, :help, :contact]
+  
+  pages.each do |page|
+
+    describe "GET #{page}" do
+      it "gets the #{page} page view" do
+        get page
+        expect(response).to have_http_status(:success)
+      end
+   
+      it "gets the correct view template" do
+        get page
+        expect(response).to render_template("static_pages/#{page}")
+      end
     end
   end
+
 end
