@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe MicropostsController, type: :controller do
+  fixtures :microposts, :users
   
   def log_in_as(user, options = {})
   	password		= options[:password]		|| 'password'
@@ -25,58 +26,26 @@ RSpec.describe MicropostsController, type: :controller do
   end
   
   describe "Unauthenticated Create Requests" do
-    around do |spec|
-      spec_user = User.create(name: "example",
-                  email: "example@example.com",
-                  password_digest: User.digest('password'),
-                  admin: true,
-                  activated: true,
-                  activated_at: Time.zone.now)
-      @example_id = Micropost.create(content: "wat", created_at: 10.minutes.ago, user: spec_user)
-      spec.run
-      spec_user.destroy
-      @example_id.destroy
-    end
     
     it "should not fulfill unauthenticated delete requests" do
-      expect{ delete :destroy, id: @example_id }.to_not change { Micropost.count }
+      expect{ delete :destroy, id: microposts(:orange) }.to_not change { Micropost.count }
     end
     
     it "should redirect unauthenticated delete requests to the login page" do
-      expect( delete :destroy, id: @example_id ).to redirect_to(login_url)
+      expect( delete :destroy, id: microposts(:orange) ).to redirect_to(login_url)
     end
   end
   
   describe "Unauthorized Delete Requests" do
     
-    around do |spec|
-      @spec_user = User.create( name: "example",
-                                email: "example@example.com",
-                                password_digest: User.digest('password'),
-                                admin: false,
-                                activated: true,
-                                activated_at: Time.zone.now)
-      other_user = User.create( name: "other",
-                                email: "other@example.com",
-                                password_digest: User.digest('password'),
-                                admin: false,
-                                activated: true,
-                                activated_at: Time.zone.now)
-      @example_id = Micropost.create(content: "wat", created_at: 10.minutes.ago, user: other_user)
-      spec.run
-      @spec_user.destroy
-      other_user.destroy
-      @example_id.destroy
-    end
-    
     it "should not fulfill unauthorized delete requests" do
-      log_in_as(@spec_user)
-      expect{ delete :destroy, id: @example_id }.to_not change { Micropost.count }
+      log_in_as(users(:michael))
+      expect{ delete :destroy, id: microposts(:ants) }.to_not change { Micropost.count }
     end
     
     it "should redirect unauthorized delete requests to the home page" do
-      log_in_as(@spec_user)
-      expect( delete :destroy, id: @example_id ).to redirect_to(root_url)
+      log_in_as(users(:michael))
+      expect( delete :destroy, id: microposts(:ants) ).to redirect_to(root_url)
     end
   end
 end
