@@ -44,7 +44,7 @@ RSpec.describe RelationshipsController, type: :controller do
       @example_rel.destroy
     end    
     it "should not fulfill unauthenticated delete requests" do
-      expect{ delete :destroy, id: @example_rel.id }.to not_change { Relationship.count }
+      expect{ delete :destroy, id: @example_rel.id }.to_not change { Relationship.count }
     end
     
     it "should redirect unauthenticated delete requests to the login page" do

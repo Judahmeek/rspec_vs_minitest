@@ -24,7 +24,7 @@ RSpec.describe MicropostsController, type: :controller do
     end
   end
   
-  describe "Unauthenticated Delete Requests" do
+  describe "Unauthenticated Create Requests" do
     around do |spec|
       spec_user = User.create(name: "example",
                   email: "example@example.com",
@@ -39,7 +39,7 @@ RSpec.describe MicropostsController, type: :controller do
     end
     
     it "should not fulfill unauthenticated delete requests" do
-      expect{ delete :destroy, id: @example_id }.to not_change { Micropost.count }
+      expect{ delete :destroy, id: @example_id }.to_not change { Micropost.count }
     end
     
     it "should redirect unauthenticated delete requests to the login page" do
@@ -71,7 +71,7 @@ RSpec.describe MicropostsController, type: :controller do
     
     it "should not fulfill unauthorized delete requests" do
       log_in_as(@spec_user)
-      expect{ delete :destroy, id: @example_id }.to not_change { Micropost.count }
+      expect{ delete :destroy, id: @example_id }.to_not change { Micropost.count }
     end
     
     it "should redirect unauthorized delete requests to the home page" do
