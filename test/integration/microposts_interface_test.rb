@@ -10,7 +10,7 @@ class MicropostsInterfaceTest < ActionDispatch::IntegrationTest
 		log_in_as(@user)
 		get root_path
 		assert_select 'div.pagination'
-		# assert_select 'input[type=file_field]'
+		assert_select 'input[type="file"]'
 		# Invalid submission
 		assert_no_difference 'Micropost.count' do
 			post microposts_path, micropost: { content: "" }
