@@ -16,7 +16,7 @@ Both fixtures & factories have pros & cons, and I encourage readers to explore b
 However, if you're going to learn to use RSpec, then you should probably learn to use [Factory_Girl](https://github.com/thoughtbot/factory_girl) & [Capybara](https://github.com/jnicklas/capybara) as well,
 since these three gems seem to be used together often. 
 
-Bewarned that proper configuration of all three gems together may be non-trivial: http://brandonhilkert.com/blog/7-reasons-why-im-sticking-with-minitest-and-fixtures-in-rails/ (See reason 3)
+Be warned that proper configuration of all three gems together may be non-trivial: http://brandonhilkert.com/blog/7-reasons-why-im-sticking-with-minitest-and-fixtures-in-rails/ (See reason 3)
 
 ##Special thanks to Michael Hartl
 This is the sample application for the
